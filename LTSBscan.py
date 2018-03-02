@@ -28,18 +28,22 @@ with open('LTSB.csv', 'a') as out:
 		nm.scan(tgtHost, arguments="-O")
 
 		#print(nm[tgtHost]['hostnames'])
-		name = nm[tgtHost]['hostnames'][0]['name']
-		mac = nm[tgtHost]['addresses']['mac']
-		os = ''
-		accuracy = ''
-		for match in nm[tgtHost]['osmatch']:
-			# Get the first Windows match and the accuracy of the match
-			if 'Windows' in match['name']:
-				os = match['name']
-				accuracy = match['accuracy']
-				break
-		if os == '':
-			os = "Probably not Windows"
+		try:
+			name = nm[tgtHost]['hostnames'][0]['name']
+			mac = nm[tgtHost]['addresses']['mac']
+			os = ''
+			accuracy = ''
+			for match in nm[tgtHost]['osmatch']:
+				# Get the first Windows match and the accuracy of the match
+				if 'Windows' in match['name']:
+					os = match['name']
+					accuracy = match['accuracy']
+					break
+			if os == '':
+				os = "Probably not Windows"
+		except Exception:
+			print(tgtHost, " dropped off the network *shrugs*")
+			continue
 
 		# Append output file
 		writer.writerow([name, mac, os, accuracy])
