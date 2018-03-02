@@ -1,7 +1,7 @@
 import nmap
-from itertools import product
+import csv
 
-IP = ""
+IP = ''
 
 # Initalize scanner
 nm = nmap.PortScanner()
@@ -13,19 +13,35 @@ print("Discovering Hosts (this might take awhile) . . .")
 nm.scan(IP, arguments = '-sn -T2 -n --open')
 print(len(nm.all_hosts()), " hosts found. Beginning finger printing . . .")
 
-# Fingerprint the hosts
-for tgtHost in nm.all_hosts():
-	print("Scanning {} . . .".format(tgtHost))
-	# Scan the target
-	nm.scan(tgtHost, arguments="-T2 -O")
+# Clear output file
+out = open('LTSB.csv', 'w').close
 
-	# If we can detect the OS, . . .
-	if 'osmatch' in nm[tgtHost]:
+# Open file for writing
+with open('LTSB.csv', 'a') as out:
+	# start csv writer
+	writer = csv.writer(out, delimiter=',')
+
+	# Fingerprint the hosts
+	for tgtHost in nm.all_hosts():
+		print("Scanning {} . . .".format(tgtHost))
+		# Scan the target
+		nm.scan(tgtHost, arguments="-O")
+
+		#print(nm[tgtHost]['hostnames'])
+		name = nm[tgtHost]['hostnames'][0]['name']
+		mac = nm[tgtHost]['addresses']['mac']
+		os = ''
+		accuracy = ''
 		for match in nm[tgtHost]['osmatch']:
-			# Print the first Windows match
+			# Get the first Windows match and the accuracy of the match
 			if 'Windows' in match['name']:
-				print("OS: {}, accuracy {}%".format(match['name'], match['accuracy']))
-				print("MAC: {}".format(nm[tgtHost]['addresses']['mac']))
+				os = match['name']
+				accuracy = match['accuracy']
 				break
-	else:
-		print("No OS match")
+		if os == '':
+			os = "Probably not Windows"
+
+		# Append output file
+		writer.writerow([name, mac, os, accuracy])
+
+print("\n\nDONE!")
