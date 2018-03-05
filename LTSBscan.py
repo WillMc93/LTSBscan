@@ -14,7 +14,7 @@ nm.scan(IP, arguments = '-sn -T2 -n --open')
 print(len(nm.all_hosts()), " hosts found. Beginning finger printing . . .")
 
 # Clear output file
-out = open('LTSB.csv', 'w').close
+out = open('LTSB.csv', 'w').close()
 
 # Open file for writing
 with open('LTSB.csv', 'a') as out:
