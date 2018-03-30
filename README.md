@@ -4,7 +4,7 @@ Uses nmap's OS fingerprinting to figure out which PCs are running Windows and re
 
 ## INSTALLATION and USE (this assumes anaconda is already installed)
 * Install nmap
-> (apt) sudo apt-get install namp
+> (apt) sudo apt-get install nmap
 
 > (yum) sudo yum install nmap
 
