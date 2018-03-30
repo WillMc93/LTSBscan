@@ -11,5 +11,7 @@ Uses nmap's OS fingerprinting to figure out which PCs are running Windows 10 LTS
 
 * Scan must be run with elevated credentials. The following should work.
 > sudo -s
+
 > export PATH="$HOME/anaconda/bin:$PATH"
+
 > python LTSBscan.py
