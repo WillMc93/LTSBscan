@@ -8,14 +8,10 @@ Uses nmap's OS fingerprinting to figure out which PCs are running Windows and re
 
 > (yum) sudo yum install nmap
 
-* Import the conda environment
-> conda env create -f LTSBscan.yml
+* Install the nmap module with pip
+> pip install python-nmap
 
 * Scan must be run with elevated credentials. The following commands should work.
 > sudo -s
-
-> export PATH="$HOME/anaconda/bin:$PATH"
-
-> source activate LTSBscan
 
 > python LTSBscan.py
